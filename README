@@ -2,41 +2,41 @@ To solve the problem I used 2 structures, pixel and details.
 pixel helps to retain the pixels of the image, and details for the information
 image-related additions.
 
-------------------------------------LOAD-------------- ----------------------
+------------------------------------LOAD------------------------------------
 The first time I determine the file type and whether it is color or not by calling o
 function.
 I keep the image in an array.
 If a file cannot be loaded, the error becomes -1
------------------------------------SELECT-------------- --------------------
+-----------------------------------SELECT----------------------------------
 When the select function is called, the next argument is also read. If this one
 is ALL, the entire image is selected. In the other case, it is transposed
 the string into a number (using the atoi function), a particular case would be the case
 in which the number is 0, in which case the string can be 0 or consist of letters.
 The correctness of the coordinates for the selection is checked, and in case
 these are erroneous, the old coodontates are kept.
-------------------------------------CROP-------------- ------------------------
+------------------------------------CROP-----------------------------------
 Pixels between the image coordinates are kept, and the old image is
 release
-------------------------------------ROTATE------------- -----------------------
+------------------------------------ROTATE------------------------------------
 To rotate a matrix, it is transposed and then the columns are reversed.
 Also, depending on the selected co-donates, we can figure out if it works
 we reverse only a selection or the whole image. For a selection this must
 to be quadratic. Rotating with a negative angle is identical to making a rotation with
 its positive counterpart.
------------------------------------APPLY-------------- ------------------------
+-----------------------------------APPLY--------------------------------------
 It is checked if a pixel has enough neighbors to be modified. In the
 if it has its veil, it can be changed using a special matrix
 corresponding to each filter.
------------------------------------SAVE--------------- --------------------------
+-----------------------------------SAVE----------------------------------------
 It is determined whether the type of the saved file is text or binary. Initially they are written
 auxiliary information in the new file following that the image (matrix) should also be
 it is written in text format. Before being written, the values are rounded
 to be changed from double to unsigned char.
-----------------------------------EQUALIZE-------------- ----------------------
+----------------------------------EQUALIZE------------------------------------
 The number of each pixel in the image is calculated and stored
 in an appearance vector. The entire vector, having 255 elements, is traversed,
 which represents the pixel value, and are stored in another vector
 the new values that the pixel will have after applying the presented formula
 in the statement of the theme.
---------------------------------EXIT----------------- -------------------------
+----------------------------------EXIT----------------------------------------
 The program is closed and memory is released.
