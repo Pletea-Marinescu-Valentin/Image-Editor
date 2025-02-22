@@ -1,42 +1,83 @@
-To solve the problem I used 2 structures, pixel and details.
-pixel helps to retain the pixels of the image, and details for the information
-image-related additions.
+# Image Editor - C Project
 
-------------------------------------LOAD------------------------------------
-The first time I determine the file type and whether it is color or not by calling o
-function.
-I keep the image in an array.
-If a file cannot be loaded, the error becomes -1
------------------------------------SELECT----------------------------------
-When the select function is called, the next argument is also read. If this one
-is ALL, the entire image is selected. In the other case, it is transposed
-the string into a number (using the atoi function), a particular case would be the case
-in which the number is 0, in which case the string can be 0 or consist of letters.
-The correctness of the coordinates for the selection is checked, and in case
-these are erroneous, the old coodontates are kept.
-------------------------------------CROP-----------------------------------
-Pixels between the image coordinates are kept, and the old image is
-release
-------------------------------------ROTATE------------------------------------
-To rotate a matrix, it is transposed and then the columns are reversed.
-Also, depending on the selected co-donates, we can figure out if it works
-we reverse only a selection or the whole image. For a selection this must
-to be quadratic. Rotating with a negative angle is identical to making a rotation with
-its positive counterpart.
------------------------------------APPLY--------------------------------------
-It is checked if a pixel has enough neighbors to be modified. In the
-if it has its veil, it can be changed using a special matrix
-corresponding to each filter.
------------------------------------SAVE----------------------------------------
-It is determined whether the type of the saved file is text or binary. Initially they are written
-auxiliary information in the new file following that the image (matrix) should also be
-it is written in text format. Before being written, the values are rounded
-to be changed from double to unsigned char.
-----------------------------------EQUALIZE------------------------------------
-The number of each pixel in the image is calculated and stored
-in an appearance vector. The entire vector, having 255 elements, is traversed,
-which represents the pixel value, and are stored in another vector
-the new values that the pixel will have after applying the presented formula
-in the statement of the theme.
-----------------------------------EXIT----------------------------------------
-The program is closed and memory is released.
+## Overview
+This project implements an image editor in C, using two main data structures:
+
+- **Pixel**: Stores the RGB values of each pixel in the image.
+- **Details**: Contains metadata and additional information related to the image.
+
+The editor supports operations such as loading, selecting, cropping, rotating, applying filters, equalizing, and saving images.
+
+---
+
+## Features and Functionality
+
+### 1. Load
+- Determines the file type and checks whether the image is colored or grayscale.
+- Loads the image into a two-dimensional pixel array.
+- Returns an error code (-1) if the file cannot be loaded.
+
+### 2. Select
+- Reads the selection argument. If `ALL` is specified, the entire image is selected.
+- For custom selections, converts string inputs to integers using `atoi()`. Special handling is applied when the input is `0` or contains invalid characters.
+- Validates the selection coordinates. If invalid, the previous selection is retained.
+
+### 3. Crop
+- Crops the image based on the selected coordinates.
+- Releases memory associated with the previous image.
+
+### 4. Rotate
+- Rotates the selected region or the entire image by a specified angle.
+- Rotation is performed by transposing the matrix and reversing the columns.
+- For selection-based rotation, the selection must be square.
+- Negative angles are handled by converting them to their positive counterparts.
+
+### 5. Apply Filter
+- Checks if each pixel has sufficient neighboring pixels to apply a filter.
+- Applies the filter using a predefined matrix corresponding to each filter type.
+
+### 6. Save
+- Determines the output file format (text or binary).
+- Writes auxiliary image information followed by the pixel data in text format.
+- Rounds pixel values when converting from `double` to `unsigned char`.
+
+### 7. Equalize
+- Calculates the frequency of each pixel value in the image.
+- Uses a histogram equalization formula to compute new pixel values.
+- Applies the transformation to enhance image contrast.
+
+### 8. Exit
+- Releases all dynamically allocated memory.
+- Closes the program safely.
+
+---
+
+## Usage
+
+1. **Compile the code**:
+   ```bash
+   gcc -o image_editor image_editor.c -lm
+   ```
+
+2. **Run the program**:
+   ```bash
+   ./image_editor
+   ```
+
+3. **Available commands**:
+   - `LOAD <filename>`: Load an image file.
+   - `SELECT <x1> <y1> <x2> <y2>` or `SELECT ALL`: Select a region or the entire image.
+   - `CROP`: Crop the selected region.
+   - `ROTATE <angle>`: Rotate the image or selected region.
+   - `APPLY <filter>`: Apply available filters.
+   - `EQUALIZE`: Equalize the image histogram.
+   - `SAVE <filename> [ascii|binary]`: Save the image in the specified format.
+   - `EXIT`: Exit the program.
+
+---
+
+## Error Handling
+- Handles invalid file formats and unreadable files during loading.
+- Validates selection coordinates and image dimensions before processing.
+- Ensures memory is properly managed to avoid leaks.
+
