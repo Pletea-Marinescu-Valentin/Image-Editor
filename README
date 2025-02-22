@@ -1,83 +1,84 @@
 # Image Editor - C Project
 
-## Overview
-This project implements an image editor in C, using two main data structures:
+## 📄 Overview
+This project is a C-based image editor that supports essential image processing operations such as loading, selecting, cropping, rotating, applying filters, equalizing, and saving images. The editor utilizes two main data structures:
 
-- **Pixel**: Stores the RGB values of each pixel in the image.
-- **Details**: Contains metadata and additional information related to the image.
-
-The editor supports operations such as loading, selecting, cropping, rotating, applying filters, equalizing, and saving images.
+- **`Pixel`**: Stores the RGB values of each pixel.
+- **`Details`**: Contains metadata and additional information related to the image.
 
 ---
 
-## Features and Functionality
+## 🚀 Features and Functionality
 
-### 1. Load
-- Determines the file type and checks whether the image is colored or grayscale.
+### 1️⃣ Load
+- Identifies the file type and color properties (grayscale or RGB).
 - Loads the image into a two-dimensional pixel array.
-- Returns an error code (-1) if the file cannot be loaded.
+- Returns `-1` if the file cannot be loaded.
 
-### 2. Select
-- Reads the selection argument. If `ALL` is specified, the entire image is selected.
-- For custom selections, converts string inputs to integers using `atoi()`. Special handling is applied when the input is `0` or contains invalid characters.
-- Validates the selection coordinates. If invalid, the previous selection is retained.
+### 2️⃣ Select
+- Selects the entire image with `ALL` or a custom region using coordinates (`x1 y1 x2 y2`).
+- Converts input strings to integers using `atoi()`.
+- Validates coordinates and retains the previous selection if invalid.
 
-### 3. Crop
-- Crops the image based on the selected coordinates.
-- Releases memory associated with the previous image.
+### 3️⃣ Crop
+- Crops the image based on the selected region.
+- Frees memory associated with the previous image.
 
-### 4. Rotate
-- Rotates the selected region or the entire image by a specified angle.
-- Rotation is performed by transposing the matrix and reversing the columns.
+### 4️⃣ Rotate
+- Rotates the selected region or entire image by a specified angle.
+- Handles rotation by transposing the matrix and reversing columns.
 - For selection-based rotation, the selection must be square.
-- Negative angles are handled by converting them to their positive counterparts.
+- Supports negative angle rotation by converting to positive equivalents.
 
-### 5. Apply Filter
-- Checks if each pixel has sufficient neighboring pixels to apply a filter.
-- Applies the filter using a predefined matrix corresponding to each filter type.
+### 5️⃣ Apply Filter
+- Verifies sufficient neighboring pixels for filtering.
+- Applies predefined filters using corresponding matrices.
 
-### 6. Save
-- Determines the output file format (text or binary).
-- Writes auxiliary image information followed by the pixel data in text format.
+### 6️⃣ Save
+- Saves the image in text (`ascii`) or binary format.
+- Writes auxiliary information followed by pixel data.
 - Rounds pixel values when converting from `double` to `unsigned char`.
 
-### 7. Equalize
-- Calculates the frequency of each pixel value in the image.
-- Uses a histogram equalization formula to compute new pixel values.
-- Applies the transformation to enhance image contrast.
+### 7️⃣ Equalize
+- Computes the frequency of each pixel value.
+- Enhances image contrast via histogram equalization.
+- Applies the transformation using the calculated new pixel values.
 
-### 8. Exit
-- Releases all dynamically allocated memory.
+### 8️⃣ Exit
+- Releases dynamically allocated memory.
 - Closes the program safely.
 
 ---
 
-## Usage
+## 🛠️ Usage
 
-1. **Compile the code**:
-   ```bash
-   gcc -o image_editor image_editor.c -lm
-   ```
+### 🔧 Compile the Code
+```bash
+gcc -o image_editor image_editor.c -lm
+```
 
-2. **Run the program**:
-   ```bash
-   ./image_editor
-   ```
+### 💻 Run the Program
+```bash
+./image_editor
+```
 
-3. **Available commands**:
-   - `LOAD <filename>`: Load an image file.
-   - `SELECT <x1> <y1> <x2> <y2>` or `SELECT ALL`: Select a region or the entire image.
-   - `CROP`: Crop the selected region.
-   - `ROTATE <angle>`: Rotate the image or selected region.
-   - `APPLY <filter>`: Apply available filters.
-   - `EQUALIZE`: Equalize the image histogram.
-   - `SAVE <filename> [ascii|binary]`: Save the image in the specified format.
-   - `EXIT`: Exit the program.
+### 📝 Available Commands
+```plaintext
+LOAD <filename>                # Load an image file
+SELECT <x1> <y1> <x2> <y2>     # Select a region
+SELECT ALL                     # Select the entire image
+CROP                           # Crop the selected region
+ROTATE <angle>                 # Rotate the image/selection
+APPLY <filter>                 # Apply a filter
+EQUALIZE                       # Equalize image histogram
+SAVE <filename> [ascii|binary] # Save the image
+EXIT                           # Exit the program
+```
 
 ---
 
-## Error Handling
-- Handles invalid file formats and unreadable files during loading.
-- Validates selection coordinates and image dimensions before processing.
-- Ensures memory is properly managed to avoid leaks.
+## ⚡ Error Handling
+- Handles invalid file formats and unreadable files.
+- Validates selection coordinates and image dimensions.
+- Ensures proper memory management to avoid leaks.
 
