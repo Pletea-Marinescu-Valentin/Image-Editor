@@ -7,7 +7,7 @@
 
 pixel **alloc(int height, int width, int values)
 {
-	//memory space is allocated for the image
+	//Memory space is allocated for the image
 	pixel **image;
 
 	image = malloc(height * sizeof(pixel *));
@@ -32,7 +32,7 @@ pixel **alloc(int height, int width, int values)
 
 void free_mat(pixel **image, int height, int width)
 {
-	//free memory space for the image
+	//Free memory space for the image
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++)
 			free(image[i][j].color);
