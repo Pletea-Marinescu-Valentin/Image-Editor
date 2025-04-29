@@ -85,40 +85,45 @@ void write_bin(pixel **image, details v, FILE *f)
 void save(pixel **image, details v)
 {
 	FILE *f;
-	char *name;
-	int ascii = 0;
-
-	// Allocate memory for the filename
-	name = malloc(100 * sizeof(char));
-
-	// Get the filename and format (ASCII or binary)
-	save_arg(name, &ascii);
-
-	// Open the file in write text mode
-	f = fopen(name, "wt");
-
-	// Write the magic number (file type)
-	write_mag(ascii, v, f);
-
-	// Write image dimensions and max pixel value
-	if (v.blackandwhite == 1)
-		fprintf(f, "%d %d\n", v.width, v.height); // PBM format (no max value)
-	else
-		fprintf(f, "%d %d\n%d\n", v.width, v.height, v.max); // PGM/PPM format
-
-	// If ASCII format, write as text and close the file
-	if (ascii == 1) {
-		printf("Saved %s\n", name);
-		write_text(image, v, f);
-		fclose(f);
-	} else { // If binary format, reopen in append-binary mode
-		fclose(f);
-		FILE *f = fopen(name, "ab"); // Open in append binary mode
-		printf("Saved %s\n", name);
-		write_bin(image, v, f);
-		fclose(f);
+	char *name = malloc(100 * sizeof(char));
+	if (!name) {
+		fprintf(stderr, "Memory allocation failed for filename\n");
+		return;
 	}
 
-	// Free the allocated memory for filename
+	int ascii = 0;
+	save_arg(name, &ascii);
+
+	f = fopen(name, "wt");
+	if (!f) {
+		fprintf(stderr, "Failed to open file %s for writing\n", name);
+		free(name);
+		return;
+	}
+
+	write_mag(ascii, v, f);
+
+	if (v.blackandwhite == 1)
+		fprintf(f, "%d %d\n", v.width, v.height);
+	else
+		fprintf(f, "%d %d\n%d\n", v.width, v.height, v.max);
+
+	if (ascii == 1) {
+		write_text(image, v, f);
+		fclose(f);
+		printf("Saved %s\n", name);
+	} else {
+		fclose(f);
+		f = fopen(name, "ab");
+		if (!f) {
+			fprintf(stderr, "Failed to reopen file %s in binary mode\n", name);
+			free(name);
+			return;
+		}
+		write_bin(image, v, f);
+		fclose(f);
+		printf("Saved %s\n", name);
+	}
+
 	free(name);
 }
